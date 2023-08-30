@@ -1,118 +1,119 @@
-import BGPattern from '@/assets/utils/BGPattern';
+import EmailIconSvg from '@/assets/icons/EmailIconSvg';
+import PasswordIconSvg from '@/assets/icons/PasswordIconSvg';
+import ShowPasswordSvg from '@/assets/icons/ShowPasswordSvg';
+import UsernameIconSvg from '@/assets/icons/UsernameIconSvg';
 import Center from '@/components/form/Center';
 import FoodButton from '@/components/form/FoodButton';
+import FoodCheckbox from '@/components/form/FoodCheckbox';
 import FoodGradientButton from '@/components/form/FoodGradientButton';
 import FoodInput from '@/components/form/FoodInput';
 import FoodText from '@/components/form/FoodText';
-import FacebookRoundedLogo from '@/components/icons/FacebookRoundedLogo';
-import GooogleRoundedLogo from '@/components/icons/GooogleRoundedLogo';
-import { AuthStackParamList } from '@/navigation/auth';
+import {AuthStackParamList} from '@/navigation/auth';
+import {SignUpStackParamList} from '@/navigation/auth/signup';
 import {colors} from '@/utils/colors';
 import {font, normalize} from '@/utils/responsive';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useState} from 'react';
+import {Dimensions, StyleSheet, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import FloatingContainer from './components/FloatingContainer';
 
-type SignInProps = {} & NativeStackScreenProps<AuthStackParamList, 'SignIn'>
-const SignIn: React.FC<SignInProps> = ({navigation}) => {
+type SignUpProps = {} & CompositeScreenProps<
+  NativeStackScreenProps<SignUpStackParamList, 'SignUp'>,
+  NativeStackScreenProps<AuthStackParamList>
+>;
+
+const SignUp: React.FC<SignUpProps> = ({navigation}) => {
+  const {width} = Dimensions.get('screen');
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [keepMeSignedIn, setKeepMeSignedIn] = useState(false);
+  const [emailSpecialPricing, setEmailSpecialPricing] = useState(false);
   return (
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: colors.white}}
-      edges={['top']}>
-      <ScrollView style={styles.signUpContainerStyle} bounces={false}>
-        <View
-          style={{
-            height: 300,
-            width: '100%',
-            position: 'absolute',
-          }}>
-          <BGPattern />
-        </View>
-        <Center style={{zIndex: 999}} safeArea>
-          <Image
-            source={require('@/assets/utils/logo.png')}
-            style={{
-              width: 185,
-              height: 200,
-            }}
-          />
-        </Center>
-        <Center style={styles.signUpTextContainer}>
-          <FoodText fontFamily={'Bold'} fontSize={font.xlarge}>
-            Login To Your Account
-          </FoodText>
-        </Center>
-        <View style={styles.signUpFormStyle}>
-          <FoodInput
-            placeholder="Email"
-            textInputStyle={styles.signUpInputStyle}
-          />
-          <FoodInput
-            placeholder="Password"
-            textInputStyle={styles.signUpInputStyle}
-          />
-        </View>
-        <Center>
-          <FoodText fontFamily={'Bold'} fontSize={font.mini}>
-            Or Continue With
-          </FoodText>
-        </Center>
-        <Center style={styles.signUpOrButtonContainerStyle}>
-          <FoodButton containerStyle={styles.signUpOrButton}>
-            <FacebookRoundedLogo />
-            <FoodText fontFamily={'Semibold'}>Facebook</FoodText>
-          </FoodButton>
-          <FoodButton containerStyle={styles.signUpOrButton}>
-            <GooogleRoundedLogo />
-            <FoodText fontFamily={'Semibold'}>Google</FoodText>
-          </FoodButton>
-        </Center>
-        <Center>
-          <FoodText
-            color={colors.primary.green}
-            fontSize={font.mini}
-            textInputStyle={{
-              textDecorationLine: 'underline',
-            }}
-            fontFamily={'Semibold'}>
-            Forgot Your Password?
-          </FoodText>
-        </Center>
-        <Center style={styles.loginButtonContainer}>
-          <FoodGradientButton
-            containerStyle={[styles.loginButtonStyle]}
-            colors={['#53E88B', '#15BE77']}
-            activeOpacity={0.1}>
-            <FoodText
-              fontFamily={'Bold'}
-              color={'white'}
-              fontSize={font.medium}>
-              Login
+    <View style={{flex: 1, flexGrow: 1}}>
+      <FloatingContainer width={width} />
+      <SafeAreaView
+        style={{flex: 1, backgroundColor: colors.white}}
+        edges={['top']}>
+        <KeyboardAwareScrollView
+          automaticallyAdjustContentInsets
+          keyboardDismissMode="interactive"
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{flex: 1, flexGrow: 1, zIndex: 99999}}
+          style={styles.signUpContainerStyle}
+          bounces={false}>
+          <Center style={styles.signUpTextContainer}>
+            <FoodText fontFamily={'Bold'} fontSize={font.xlarge}>
+              Sign Up For Free
             </FoodText>
-          </FoodGradientButton>
-        </Center>
-        <Center>
-          <FoodButton onPress={navigation.navigate('SignUp')}>
-            <FoodText
-              color={colors.primary.green}
-              fontSize={font.mini}
-              textInputStyle={{
-                textDecorationLine: 'underline',
-              }}
-              fontFamily={'Semibold'}>
-              Sign Up with E-Mail?
-            </FoodText>
-          </FoodButton>
-        </Center>
-      </ScrollView>
-    </SafeAreaView>
+          </Center>
+          <View style={styles.signUpFormStyle}>
+            <FoodInput
+              placeholder="Username"
+              textInputStyle={styles.signUpInputStyle}
+              leftIcon={<UsernameIconSvg />}
+            />
+            <FoodInput
+              placeholder="Email"
+              textInputStyle={styles.signUpInputStyle}
+              leftIcon={<EmailIconSvg />}
+            />
+            <FoodInput
+              placeholder="Password"
+              secureTextEntry={showPassword}
+              textInputStyle={styles.signUpInputStyle}
+              leftIcon={<PasswordIconSvg />}
+              rightIcon={
+                <FoodButton onPress={() => setShowPassword(show => !show)}>
+                  <ShowPasswordSvg />
+                </FoodButton>
+              }
+            />
+          </View>
+          <View style={styles.checkboxContainerStyle}>
+            <FoodCheckbox
+              value={keepMeSignedIn}
+              onValueChange={val => setKeepMeSignedIn(val)}>
+              Keep Me Signed In
+            </FoodCheckbox>
+            <FoodCheckbox
+              value={emailSpecialPricing}
+              onValueChange={val => setEmailSpecialPricing(val)}>
+              Email Me About Special Pricing
+            </FoodCheckbox>
+          </View>
+          <Center style={styles.loginButtonContainer}>
+            <FoodGradientButton
+              containerStyle={[styles.loginButtonStyle]}
+              onPress={() => navigation.navigate('PersonalInfo')}
+              colors={['#53E88B', '#15BE77']}
+              activeOpacity={0.8}>
+              <FoodText
+                fontFamily={'Bold'}
+                color={'white'}
+                fontSize={font.medium}>
+                Create Account
+              </FoodText>
+            </FoodGradientButton>
+          </Center>
+          <Center>
+            <FoodButton onPress={() => navigation.navigate('SignIn')}>
+              <FoodText
+                color={colors.primary.green}
+                fontSize={font.mini}
+                textInputStyle={{
+                  textDecorationLine: 'underline',
+                }}
+                fontFamily={'Semibold'}>
+                already have an account?
+              </FoodText>
+            </FoodButton>
+          </Center>
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 
@@ -123,20 +124,19 @@ const styles = StyleSheet.create({
     zIndex: 9999,
   },
   signUpTextContainer: {
-    marginTop: normalize(60),
     marginBottom: normalize(40),
   },
   signUpFormStyle: {
     backgroundColor: colors.white,
     paddingHorizontal: normalize(24),
-    rowGap: normalize(5),
+    rowGap: normalize(10),
     display: 'flex',
     flexDirection: 'column',
     marginBottom: normalize(10),
   },
   signUpInputStyle: {
-    height: normalize(40),
-    paddingHorizontal: normalize(20),
+    height: normalize(50),
+    paddingHorizontal: normalize(10),
     color: 'black',
     shadowColor: 'rgba(90,108,234,0.10)',
     shadowRadius: 26,
@@ -152,6 +152,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: normalize(24),
     columnGap: normalize(20),
     marginVertical: normalize(20),
+  },
+  checkboxContainerStyle: {
+    marginTop: normalize(20),
+    marginBottom: normalize(40),
+    paddingHorizontal: normalize(24),
+    rowGap: normalize(10),
   },
   signUpOrButton: {
     display: 'flex',
@@ -184,4 +190,4 @@ const styles = StyleSheet.create({
     marginVertical: normalize(20),
   },
 });
-export default SignIn;
+export default SignUp;
