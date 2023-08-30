@@ -44,8 +44,8 @@ const SignIn: React.FC<SignInProps> = ({navigation}) => {
         edges={['top']}>
         <KeyboardAwareScrollView
           automaticallyAdjustContentInsets
-          keyboardDismissMode='interactive'
-          keyboardShouldPersistTaps='handled'
+          keyboardDismissMode="interactive"
+          keyboardShouldPersistTaps="handled"
           contentContainerStyle={{flex: 1, flexGrow: 1, zIndex: 99999}}
           style={styles.signInContainerStyle}
           bounces={false}>
