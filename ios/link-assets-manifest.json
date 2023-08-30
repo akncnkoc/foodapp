@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/AvertaStd-Black.otf",
+      "sha1": "a48b42d0bed97d29fb7ae7e38e7ef0896d52717d"
+    },
+    {
+      "path": "src/assets/fonts/AvertaStd-Bold.otf",
+      "sha1": "e1c923502beaff1c0d40d2f6d10739719ba0856e"
+    },
+    {
+      "path": "src/assets/fonts/AvertaStd-Light.otf",
+      "sha1": "db51227d1e671a7b2e950031ef9a0ee7fd327dc4"
+    },
+    {
+      "path": "src/assets/fonts/AvertaStd-Regular.otf",
+      "sha1": "5bc1d41e5257be0d329df83a3eef34b83bc5a1e8"
+    },
+    {
+      "path": "src/assets/fonts/AvertaStd-Semibold.otf",
+      "sha1": "a00bf0b020236a8873a29854503fcf2d8e859d57"
+    },
+    {
+      "path": "src/assets/fonts/AvertaStd-Thin.otf",
+      "sha1": "b251b09e4b294577e57697c951d00ce36c45438b"
+    }
+  ]
+}
